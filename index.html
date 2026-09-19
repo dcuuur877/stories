@@ -551,8 +551,8 @@
     
     <div id="mainView">
         <header>
-            <h1><i class="fa-solid fa-book-open"></i> عالم القصص</h1>
-            <p>منصتك الشاملة لقراءة ونشر واكتشاف أروع الحكايات</p>
+            <h1><i class="fa-solid fa-book-open"></i> منصة حكايات</h1>
+            <p>منصتك الشاملة لقراءة ونشر واكتشاف أروع الحكايات والقصص</p>
         </header>
 
         <div class="search-container">
@@ -561,25 +561,25 @@
         </div>
 
         <div class="categories-grid">
-            <div class="category-card" onclick="filterStories('قسم 1')">
-                <i class="fa-solid fa-dragon"></i>
-                <h3>قسم 1</h3>
-                <div class="counter-badge" id="count-sec1">0</div>
-            </div>
-            <div class="category-card" onclick="filterStories('قسم 2')">
-                <i class="fa-solid fa-user-ninja"></i>
-                <h3>قسم 2</h3>
-                <div class="counter-badge" id="count-sec2">0</div>
-            </div>
-            <div class="category-card" onclick="filterStories('قسم 3')">
-                <i class="fa-solid fa-hat-wizard"></i>
-                <h3>قسم 3</h3>
-                <div class="counter-badge" id="count-sec3">0</div>
-            </div>
-            <div class="category-card" onclick="filterStories('قسم 4')">
+            <div class="category-card" onclick="filterStories('الخيال العلمي')">
                 <i class="fa-solid fa-rocket"></i>
-                <h3>قسم 4</h3>
-                <div class="counter-badge" id="count-sec4">0</div>
+                <h3>الخيال العلمي</h3>
+                <div class="counter-badge" id="count-sci">0</div>
+            </div>
+            <div class="category-card" onclick="filterStories('القصص التاريخية')">
+                <i class="fa-solid fa-landmark"></i>
+                <h3>القصص التاريخية</h3>
+                <div class="counter-badge" id="count-hist">0</div>
+            </div>
+            <div class="category-card" onclick="filterStories('المغامرات')">
+                <i class="fa-solid fa-compass"></i>
+                <h3>المغامرات</h3>
+                <div class="counter-badge" id="count-adv">0</div>
+            </div>
+            <div class="category-card" onclick="filterStories('حكايات شعبية')">
+                <i class="fa-solid fa-feather-pointed"></i>
+                <h3>حكايات شعبية</h3>
+                <div class="counter-badge" id="count-folk">0</div>
             </div>
         </div>
 
@@ -587,10 +587,10 @@
             <div class="tabs">
                 <button class="tab-btn active" onclick="filterStories('الكل')">الكل</button>
                 <button class="tab-btn fav-tab" onclick="filterStories('المفضلة')"><i class="fa-solid fa-heart"></i> المفضلة</button>
-                <button class="tab-btn" onclick="filterStories('قسم 1')">قسم 1</button>
-                <button class="tab-btn" onclick="filterStories('قسم 2')">قسم 2</button>
-                <button class="tab-btn" onclick="filterStories('قسم 3')">قسم 3</button>
-                <button class="tab-btn" onclick="filterStories('قسم 4')">قسم 4</button>
+                <button class="tab-btn" onclick="filterStories('الخيال العلمي')">الخيال العلمي</button>
+                <button class="tab-btn" onclick="filterStories('القصص التاريخية')">القصص التاريخية</button>
+                <button class="tab-btn" onclick="filterStories('المغامرات')">المغامرات</button>
+                <button class="tab-btn" onclick="filterStories('حكايات شعبية')">حكايات شعبية</button>
             </div>
             <button class="btn-add-desktop" onclick="openModal()"><i class="fa-solid fa-plus"></i> قصة جديدة</button>
         </div>
@@ -634,10 +634,10 @@
             <div class="form-group">
                 <label>اختر القسم</label>
                 <select id="category" required>
-                    <option value="قسم 1">قسم 1</option>
-                    <option value="قسم 2">قسم 2</option>
-                    <option value="قسم 3">قسم 3</option>
-                    <option value="قسم 4">قسم 4</option>
+                    <option value="الخيال العلمي">الخيال العلمي</option>
+                    <option value="القصص التاريخية">القصص التاريخية</option>
+                    <option value="المغامرات">المغامرات</option>
+                    <option value="حكايات شعبية">حكايات شعبية</option>
                 </select>
             </div>
             <div class="form-group">
@@ -653,8 +653,7 @@
 </div>
 
 <script>
-    // استخدام قاعدة بيانات جديدة v2 لمنع تداخل التخزين القديم
-    const DB_NAME = 'HikayatStoriesDB_v2';
+    const DB_NAME = 'HikayatStoriesDB_v3';
     const DB_VERSION = 1;
     const STORE_NAME = 'stories';
     let db = null;
@@ -718,14 +717,10 @@
     const initialDefaultStories = [
         { 
             id: '1', 
-            title: 'رحلة إلى الأعماق', 
-            category: 'قسم 1', 
+            title: 'بوابة الزمن العجيبة', 
+            category: 'الخيال العلمي', 
             isFavorite: true,
-            content: `في قرية بعيدة كان هناك شاب يدعى جاك، وكان جاك يعيش مع والدته، إلّا أنهما لم يكونا يملكان إلا بقرة وحيدة نحيفة لا تدر الكثير من اللبن، فطلبت الأم من جاك أن يصطحب البقرة إلى السوق ليبيعها، لأنهما لا يملكان المال لشراء الطعام.
-
-وفي الطريق التقى جاك برجل عجوز عرض عليه استبدال البقرة بحبات فاصولياء سحرية! رفض جاك في بداية الأمر لكن العجوز أقنعه بأنها حبات استثنائية. 
-
-عندما عاد جاك إلى المنزل غضبت أمه كثيراً وركبت الحبات خارج النافذة. في الصباح التالي، استيقظ جاك ليجد شجرة فاصولياء عملاقة قد نمت حتى وصلت إلى السحاب! تسلق جاك الشجرة واكتشف قلعة عملاقة في السماء.` 
+            content: `في المستقبل البعيد، تمكن العالم الشاب رامي من اختراع أول بوابة للسفر عبر الزمن في تاريخ البشرية.\n\nبدأت التجربة الأولى بنجاح مذهل عندما شاهد رامي ومضات من العصور القديمة تتراءى له أمام عينيه، ليدرك حينها أن الأسرار المخفية خلف حدود الزمان والمكان أكبر بكثير مما كان تتخيله عقول البشر.` 
         }
     ];
 
@@ -733,18 +728,16 @@
         await initDB();
         stories = await getAllStoriesFromDB();
 
-        // فحص صارم: إذا كانت قاعدة البيانات فارغة تماماً، ولم يتم تسجيل علمية تهيئة مسبقة في localStorage
-        const hasStartedBefore = localStorage.getItem('hikayat_ever_started');
+        const hasStartedBefore = localStorage.getItem('hikayat_ever_started_v3');
 
         if (!hasStartedBefore) {
-            // أول مرة يفتح المستخدم الموقع نهائياً
             if (stories.length === 0) {
                 for (const s of initialDefaultStories) {
                     await saveStoryToDB(s);
                 }
                 stories = await getAllStoriesFromDB();
             }
-            localStorage.setItem('hikayat_ever_started', 'true');
+            localStorage.setItem('hikayat_ever_started_v3', 'true');
         }
 
         updateCounters();
@@ -752,13 +745,13 @@
     }
 
     function updateCounters() {
-        const counts = { 'قسم 1': 0, 'قسم 2': 0, 'قسم 3': 0, 'قسم 4': 0 };
+        const counts = { 'الخيال العلمي': 0, 'القصص التاريخية': 0, 'المغامرات': 0, 'حكايات شعبية': 0 };
         stories.forEach(s => { if(counts[s.category] !== undefined) counts[s.category]++; });
 
-        document.getElementById('count-sec1').innerText = counts['قسم 1'];
-        document.getElementById('count-sec2').innerText = counts['قسم 2'];
-        document.getElementById('count-sec3').innerText = counts['قسم 3'];
-        document.getElementById('count-sec4').innerText = counts['قسم 4'];
+        document.getElementById('count-sci').innerText = counts['الخيال العلمي'];
+        document.getElementById('count-hist').innerText = counts['القصص التاريخية'];
+        document.getElementById('count-adv').innerText = counts['المغامرات'];
+        document.getElementById('count-folk').innerText = counts['حكايات شعبية'];
     }
 
     async function toggleFavorite(id, event) {
@@ -962,6 +955,31 @@
     }
 
     window.addEventListener('DOMContentLoaded', loadData);
+</script>
+
+<!-- كود ربط Firebase المدمج -->
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyAKW6gCqC_FurqXbsOkNnjCGpiDVo001vY",
+    authDomain: "story-world-95afd.firebaseapp.com",
+    projectId: "story-world-95afd",
+    storageBucket: "story-world-95afd.firebasestorage.app",
+    messagingSenderId: "43294801356",
+    appId: "1:43294801356:web:423cf0c555d5177f2ff169",
+    measurementId: "G-XT6WYN1E7V"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
 </script>
 
 </body>
