@@ -14,15 +14,16 @@
 
     <style>
         :root {
-            --primary: #8b5cf6;
-            --primary-hover: #7c3aed;
-            --secondary: #06b6d4;
-            --accent: #f43f5e;
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text-color: #f8fafc;
-            --text-muted: #94a3b8;
+            --primary: #475569;
+            --primary-hover: #334155;
+            --secondary: #0284c7;
+            --accent: #e11d48;
+            --trash-color: #64748b;
+            --bg-gradient: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(203, 213, 225, 0.6);
+            --text-color: #0f172a;
+            --text-muted: #64748b;
         }
 
         * {
@@ -30,7 +31,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Cairo', sans-serif;
-            transition: all 0.25s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -49,16 +50,15 @@
 
         header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            animation: fadeInDown 0.6s ease;
         }
 
         header h1 {
             font-size: 2.2rem;
             font-weight: 900;
-            background: linear-gradient(to right, #c084fc, #38bdf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 6px;
+            color: #1e293b;
+            margin-bottom: 4px;
         }
 
         header p {
@@ -66,151 +66,189 @@
             font-size: 0.95rem;
         }
 
-        .search-container {
-            max-width: 600px;
+        /* شريط العلوي للبحث وزر الإضافة معا */
+        .top-action-bar {
+            display: flex;
+            gap: 10px;
+            max-width: 650px;
             margin: 0 auto 20px auto;
+            align-items: center;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .search-container {
+            flex: 1;
             position: relative;
         }
 
         .search-box {
             width: 100%;
-            padding: 12px 42px 12px 16px;
-            background: var(--glass-bg);
+            padding: 10px 38px 10px 14px;
+            background: var(--card-bg);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            color: #fff;
-            font-size: 0.95rem;
+            border-radius: 20px;
+            color: var(--text-color);
+            font-size: 0.9rem;
             outline: none;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         .search-box:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+            border-color: var(--secondary);
+            box-shadow: 0 0 15px rgba(2, 132, 199, 0.2);
+            background: #ffffff;
+            transform: translateY(-1px);
         }
 
         .search-icon {
             position: absolute;
             top: 50%;
-            right: 16px;
+            right: 14px;
             transform: translateY(-50%);
             color: var(--text-muted);
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
+        /* زر إضافة قصة في الأعلى بجانب البحث */
+        .btn-top-add {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(71, 85, 105, 0.2);
+        }
+
+        .btn-top-add:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(71, 85, 105, 0.3);
+        }
+
+        .section-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .section-header-bar h2 {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .btn-config-cats {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid var(--glass-border);
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary);
+        }
+
+        .btn-config-cats:hover {
+            background: var(--primary);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* شبكة الأقسام مع ألوان مخصصة لكل قسم */
         .categories-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 14px;
             margin-bottom: 20px;
         }
 
         .category-card {
-            background: var(--glass-bg);
+            background: var(--card-bg);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
-            padding: 15px 10px;
-            border-radius: 16px;
+            padding: 22px 15px;
+            border-radius: 18px;
             text-align: center;
             position: relative;
             overflow: hidden;
             cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            background: #ffffff;
         }
 
         .category-card:active {
             transform: scale(0.97);
         }
 
+        /* خط علوي ملون لكل قسم حسب تعريفه */
         .category-card::before {
             content: '';
             position: absolute;
-            top: 0; right: 0; width: 100%; height: 3px;
-            background: linear-gradient(to left, var(--primary), var(--secondary));
+            top: 0; right: 0; width: 100%; height: 4px;
+            background: var(--cat-color, var(--primary));
         }
 
-        .category-card i {
-            font-size: 1.5rem;
-            margin-bottom: 6px;
-            color: var(--secondary);
+        .category-card.active-card {
+            background: #ffffff;
+            border-color: var(--cat-color, var(--primary));
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
         }
 
         .category-card h3 {
-            font-size: 0.95rem;
+            font-size: 1.1rem;
+            font-weight: 700;
             color: var(--text-color);
-            margin-bottom: 2px;
+            margin-bottom: 6px;
         }
 
         .counter-badge {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--cat-color, var(--secondary));
         }
 
+        /* شريط التحكم البسيط فوق القصص لعرض القسم الحالي فقط */
         .controls-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            background: var(--glass-bg);
+            background: var(--card-bg);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
-            padding: 12px;
+            padding: 12px 18px;
             border-radius: 16px;
             margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
 
-        .tabs {
-            display: flex;
-            gap: 6px;
-            overflow-x: auto;
-            width: 100%;
-            padding-bottom: 4px;
-            scrollbar-width: none;
-        }
-
-        .tabs::-webkit-scrollbar {
-            display: none;
-        }
-
-        .tab-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            color: var(--text-muted);
-            padding: 6px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-
-        .tab-btn.active, .tab-btn:hover {
-            background: var(--primary);
-            color: #fff;
-            border-color: var(--primary);
-        }
-
-        .tab-btn.fav-tab.active {
-            background: var(--accent);
-            border-color: var(--accent);
-        }
-
-        .btn-add-desktop {
-            display: none;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 0.9rem;
+        .current-filter-title {
+            font-size: 1.05rem;
             font-weight: 700;
-            cursor: pointer;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .stories-grid {
@@ -220,16 +258,24 @@
         }
 
         .story-card {
-            background: var(--glass-bg);
+            background: var(--card-bg);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
             border-radius: 18px;
-            padding: 16px;
+            padding: 18px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            animation: fadeIn 0.4s ease;
+        }
+
+        .story-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+            background: #ffffff;
         }
 
         .card-header {
@@ -248,6 +294,10 @@
             cursor: pointer;
         }
 
+        .fav-btn:hover {
+            transform: scale(1.2);
+        }
+
         .fav-btn.is-favorite {
             color: var(--accent);
         }
@@ -258,20 +308,20 @@
 
         .story-tag {
             display: inline-block;
-            background: rgba(139, 92, 246, 0.2);
-            color: #c084fc;
+            background: #e2e8f0;
+            color: var(--primary);
             padding: 3px 10px;
             border-radius: 10px;
             font-size: 0.75rem;
             font-weight: 600;
-            border: 1px solid rgba(139, 92, 246, 0.3);
+            border: 1px solid var(--glass-border);
         }
 
         .story-title {
             font-size: 1.2rem;
             font-weight: 700;
             margin-bottom: 6px;
-            color: #fff;
+            color: var(--text-color);
         }
 
         .story-preview {
@@ -283,10 +333,20 @@
         }
 
         .read-more-text {
-            color: #38bdf8;
+            color: var(--secondary);
             font-weight: 700;
             font-size: 0.85rem;
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .read-more-text i {
+            transition: transform 0.2s ease;
+        }
+
+        .story-card:hover .read-more-text i {
+            transform: translateX(-4px);
         }
 
         .story-actions {
@@ -312,28 +372,47 @@
         }
 
         .btn-edit {
-            background: rgba(255, 255, 255, 0.08);
-            color: #e2e8f0;
+            background: #e2e8f0;
+            color: var(--text-color);
             border: 1px solid var(--glass-border);
         }
 
+        .btn-edit:hover {
+            background: #cbd5e1;
+        }
+
         .btn-delete {
-            background: rgba(244, 63, 94, 0.15);
+            background: rgba(225, 29, 72, 0.1);
             color: var(--accent);
-            border: 1px solid rgba(244, 63, 94, 0.3);
+            border: 1px solid rgba(225, 29, 72, 0.2);
+        }
+
+        .btn-delete:hover {
+            background: rgba(225, 29, 72, 0.2);
+        }
+
+        .btn-restore {
+            background: rgba(2, 132, 199, 0.1);
+            color: var(--secondary);
+            border: 1px solid rgba(2, 132, 199, 0.2);
+        }
+
+        .btn-restore:hover {
+            background: rgba(2, 132, 199, 0.2);
         }
 
         .story-detail-page {
             display: none;
-            background: rgba(15, 23, 42, 0.95);
+            background: var(--card-bg);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
-            padding: 20px 16px;
+            padding: 24px 20px;
             max-width: 850px;
             margin: 0 auto;
-            animation: fadeIn 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            animation: fadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .story-detail-page.active {
@@ -341,8 +420,8 @@
         }
 
         .back-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
+            background: #e2e8f0;
+            color: var(--text-color);
             border: 1px solid var(--glass-border);
             padding: 8px 16px;
             border-radius: 14px;
@@ -355,16 +434,21 @@
             gap: 8px;
         }
 
+        .back-btn:hover {
+            background: #cbd5e1;
+            transform: translateX(4px);
+        }
+
         .detail-title {
             font-size: 1.6rem;
             margin: 12px 0;
-            color: #fff;
+            color: var(--text-color);
         }
 
         .detail-body {
             font-size: 1.1rem;
             line-height: 2;
-            color: #f1f5f9;
+            color: #334155;
             white-space: pre-wrap;
             word-wrap: break-word;
             margin-top: 15px;
@@ -375,7 +459,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(15, 23, 42, 0.92);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-top: 1px solid var(--glass-border);
@@ -383,6 +467,7 @@
             justify-content: space-around;
             padding: 8px 0;
             z-index: 999;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
         }
 
         .mobile-nav-item {
@@ -395,6 +480,7 @@
             border: none;
             cursor: pointer;
             gap: 4px;
+            text-decoration: none;
         }
 
         .mobile-nav-item i {
@@ -406,7 +492,7 @@
         }
 
         .mobile-nav-add-btn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: var(--primary);
             color: white;
             width: 44px;
             height: 44px;
@@ -415,7 +501,7 @@
             align-items: center;
             justify-content: center;
             margin-top: -15px;
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.5);
+            box-shadow: 0 4px 15px rgba(71, 85, 105, 0.3);
             border: none;
         }
 
@@ -424,7 +510,7 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(15, 23, 42, 0.5);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             z-index: 1000;
@@ -435,10 +521,11 @@
 
         .modal.active {
             display: flex;
+            animation: fadeIn 0.2s ease;
         }
 
         .modal-content {
-            background: #1e1b4b;
+            background: #ffffff;
             border: 1px solid var(--glass-border);
             border-radius: 24px 24px 0 0;
             padding: 20px;
@@ -446,7 +533,8 @@
             max-width: 600px;
             max-height: 90vh;
             overflow-y: auto;
-            animation: slideUp 0.3s ease;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.1);
+            animation: slideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .modal-header {
@@ -465,6 +553,11 @@
             padding: 5px;
         }
 
+        .close-btn:hover {
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+
         .form-group {
             margin-bottom: 12px;
         }
@@ -473,19 +566,25 @@
             display: block;
             margin-bottom: 4px;
             font-weight: 600;
-            color: #cbd5e1;
+            color: var(--text-color);
             font-size: 0.9rem;
         }
 
         .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 10px;
-            background: rgba(0, 0, 0, 0.3);
+            background: #f8fafc;
             border: 1px solid var(--glass-border);
             border-radius: 10px;
-            color: white;
+            color: var(--text-color);
             outline: none;
             font-size: 0.95rem;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--secondary);
+            background: #fff;
+            box-shadow: 0 0 10px rgba(2, 132, 199, 0.15);
         }
 
         .modal-footer {
@@ -510,11 +609,6 @@
                 grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
                 gap: 25px;
             }
-            .btn-add-desktop {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
             .mobile-nav {
                 display: none;
             }
@@ -528,7 +622,17 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -542,6 +646,7 @@
             text-align: center;
             padding: 40px 15px;
             color: var(--text-muted);
+            animation: fadeIn 0.5s ease;
         }
     </style>
 </head>
@@ -551,48 +656,32 @@
     
     <div id="mainView">
         <header>
-            <h1><i class="fa-solid fa-book-open"></i> منصة حكايات</h1>
-            <p>منصتك الشاملة لقراءة ونشر واكتشاف أروع الحكايات والقصص</p>
+            <h1><i class="fa-solid fa-book-open"></i> عالم القصص</h1>
+            <p>منصتك الشاملة لقراءة ونشر واكتشاف أروع الحكايات</p>
         </header>
 
-        <div class="search-container">
-            <i class="fa-solid fa-magnifying-glass search-icon"></i>
-            <input type="text" id="searchInput" class="search-box" placeholder="ابحث عن قصة..." oninput="handleSearch()">
+        <!-- حقل البحث المصغر وزر إضافة القصة في الأعلى -->
+        <div class="top-action-bar">
+            <div class="search-container">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="searchInput" class="search-box" placeholder="ابحث عن قصة..." oninput="handleSearch()">
+            </div>
+            <button class="btn-top-add" onclick="openModal()"><i class="fa-solid fa-plus"></i> قصة جديدة</button>
         </div>
 
-        <div class="categories-grid">
-            <div class="category-card" onclick="filterStories('الخيال العلمي')">
-                <i class="fa-solid fa-rocket"></i>
-                <h3>الخيال العلمي</h3>
-                <div class="counter-badge" id="count-sci">0</div>
-            </div>
-            <div class="category-card" onclick="filterStories('القصص التاريخية')">
-                <i class="fa-solid fa-landmark"></i>
-                <h3>القصص التاريخية</h3>
-                <div class="counter-badge" id="count-hist">0</div>
-            </div>
-            <div class="category-card" onclick="filterStories('المغامرات')">
-                <i class="fa-solid fa-compass"></i>
-                <h3>المغامرات</h3>
-                <div class="counter-badge" id="count-adv">0</div>
-            </div>
-            <div class="category-card" onclick="filterStories('حكايات شعبية')">
-                <i class="fa-solid fa-feather-pointed"></i>
-                <h3>حكايات شعبية</h3>
-                <div class="counter-badge" id="count-folk">0</div>
-            </div>
+        <div class="section-header-bar">
+            <h2>الأقسام والوصول السريع</h2>
+            <button class="btn-config-cats" onclick="openCategoriesModal()"><i class="fa-solid fa-gear"></i> إدارة الأقسام</button>
+        </div>
+
+        <div class="categories-grid" id="categoriesGrid">
+            <!-- سيتم توليدها ديناميكياً -->
         </div>
 
         <div class="controls-bar">
-            <div class="tabs">
-                <button class="tab-btn active" onclick="filterStories('الكل')">الكل</button>
-                <button class="tab-btn fav-tab" onclick="filterStories('المفضلة')"><i class="fa-solid fa-heart"></i> المفضلة</button>
-                <button class="tab-btn" onclick="filterStories('الخيال العلمي')">الخيال العلمي</button>
-                <button class="tab-btn" onclick="filterStories('القصص التاريخية')">القصص التاريخية</button>
-                <button class="tab-btn" onclick="filterStories('المغامرات')">المغامرات</button>
-                <button class="tab-btn" onclick="filterStories('حكايات شعبية')">حكايات شعبية</button>
+            <div class="current-filter-title" id="currentFilterTitle">
+                <i class="fa-solid fa-layer-group"></i> <span>جميع القصص</span>
             </div>
-            <button class="btn-add-desktop" onclick="openModal()"><i class="fa-solid fa-plus"></i> قصة جديدة</button>
         </div>
 
         <div class="stories-grid" id="storiesContainer"></div>
@@ -606,19 +695,20 @@
 </div>
 
 <div class="mobile-nav">
-    <button class="mobile-nav-item active" onclick="filterStories('الكل'); showMainView();">
+    <button class="mobile-nav-item active" id="navHome" onclick="filterStories('الكل'); showMainView();">
         <i class="fa-solid fa-house"></i>
         <span>الرئيسية</span>
     </button>
     <button class="mobile-nav-add-btn" onclick="openModal()">
         <i class="fa-solid fa-plus" style="font-size: 1.2rem;"></i>
     </button>
-    <button class="mobile-nav-item" onclick="filterStories('المفضلة'); showMainView();">
+    <button class="mobile-nav-item" id="navFav" onclick="filterStories('المفضلة'); showMainView();">
         <i class="fa-solid fa-heart"></i>
         <span>المفضلة</span>
     </button>
 </div>
 
+<!-- نافذة إضافة وتعديل قصة -->
 <div class="modal" id="storyModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -634,10 +724,7 @@
             <div class="form-group">
                 <label>اختر القسم</label>
                 <select id="category" required>
-                    <option value="الخيال العلمي">الخيال العلمي</option>
-                    <option value="القصص التاريخية">القصص التاريخية</option>
-                    <option value="المغامرات">المغامرات</option>
-                    <option value="حكايات شعبية">حكايات شعبية</option>
+                    <!-- سيتم تعبئتها ديناميكياً -->
                 </select>
             </div>
             <div class="form-group">
@@ -646,17 +733,63 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="action-btn btn-edit" onclick="closeModal()">إلغاء</button>
-                <button type="submit" class="btn-add-desktop" style="display: flex; border-radius: 10px;">حفظ القصة</button>
+                <button type="submit" class="btn-top-add" style="border-radius: 10px;">حفظ القصة</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- نافذة إدارة وإضافة الأقسام -->
+<div class="modal" id="categoriesModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fa-solid fa-gear"></i> إدارة الأقسام</h3>
+            <button class="close-btn" onclick="closeCategoriesModal()">&times;</button>
+        </div>
+        <form id="categoriesForm">
+            <div id="existingCategoriesInputs">
+                <!-- سيتم تعبئتها ديناميكياً للأقسام الحالية -->
+            </div>
+            
+            <hr style="border-color: var(--glass-border); margin: 15px 0;">
+            
+            <h4 style="font-size: 1rem; color: var(--text-color); margin-bottom: 10px;"><i class="fa-solid fa-plus-circle"></i> إضافة قسم جديد</h4>
+            <div class="form-group">
+                <label>اسم القسم الجديد</label>
+                <input type="text" id="newCatName" placeholder="أدخل اسم القسم...">
+            </div>
+            <div class="form-group">
+                <label>لون القسم</label>
+                <input type="color" id="newCatColor" value="#0284c7" style="height: 40px; padding: 2px; cursor: pointer;">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="action-btn btn-edit" onclick="closeCategoriesModal()">إلغاء</button>
+                <button type="submit" class="btn-top-add" style="border-radius: 10px;">حفظ التغييرات</button>
             </div>
         </form>
     </div>
 </div>
 
 <script>
-    const DB_NAME = 'HikayatStoriesDB_v3';
+    const DB_NAME = 'HikayatStoriesDB_v7';
     const DB_VERSION = 1;
     const STORE_NAME = 'stories';
     let db = null;
+
+    let categoryNames = JSON.parse(localStorage.getItem('hikayat_categories')) || {
+        'sec1': 'قسم 1',
+        'sec2': 'قسم 2',
+        'sec3': 'قسم 3',
+        'sec4': 'قسم 4'
+    };
+
+    let categoryColors = JSON.parse(localStorage.getItem('hikayat_category_colors')) || {
+        'sec1': '#0284c7', // أزرق
+        'sec2': '#059669', // أخضر زمردي
+        'sec3': '#7c3aed', // بنفسجي
+        'sec4': '#d97706'  // برتقالي
+    };
 
     function initDB() {
         return new Promise((resolve, reject) => {
@@ -714,44 +847,115 @@
     let currentFilter = 'الكل';
     let searchQuery = '';
 
-    const initialDefaultStories = [
-        { 
-            id: '1', 
-            title: 'بوابة الزمن العجيبة', 
-            category: 'الخيال العلمي', 
-            isFavorite: true,
-            content: `في المستقبل البعيد، تمكن العالم الشاب رامي من اختراع أول بوابة للسفر عبر الزمن في تاريخ البشرية.\n\nبدأت التجربة الأولى بنجاح مذهل عندما شاهد رامي ومضات من العصور القديمة تتراءى له أمام عينيه، ليدرك حينها أن الأسرار المخفية خلف حدود الزمان والمكان أكبر بكثير مما كان تتخيله عقول البشر.` 
-        }
-    ];
-
     async function loadData() {
         await initDB();
         stories = await getAllStoriesFromDB();
 
-        const hasStartedBefore = localStorage.getItem('hikayat_ever_started_v3');
-
-        if (!hasStartedBefore) {
-            if (stories.length === 0) {
-                for (const s of initialDefaultStories) {
-                    await saveStoryToDB(s);
-                }
-                stories = await getAllStoriesFromDB();
-            }
-            localStorage.setItem('hikayat_ever_started_v3', 'true');
-        }
-
+        renderCategoriesUI();
         updateCounters();
         renderStories();
     }
 
-    function updateCounters() {
-        const counts = { 'الخيال العلمي': 0, 'القصص التاريخية': 0, 'المغامرات': 0, 'حكايات شعبية': 0 };
-        stories.forEach(s => { if(counts[s.category] !== undefined) counts[s.category]++; });
+    function renderCategoriesUI() {
+        const grid = document.getElementById('categoriesGrid');
+        grid.innerHTML = '';
+        
+        // زر "الكل" كبطاقة في الشبكة
+        const allCard = document.createElement('div');
+        allCard.className = `category-card ${currentFilter === 'الكل' ? 'active-card' : ''}`;
+        allCard.style.setProperty('--cat-color', '#475569');
+        allCard.onclick = () => filterStories('الكل');
+        allCard.innerHTML = `
+            <h3>الكل</h3>
+            <div class="counter-badge" id="count-الكل">0</div>
+        `;
+        grid.appendChild(allCard);
 
-        document.getElementById('count-sci').innerText = counts['الخيال العلمي'];
-        document.getElementById('count-hist').innerText = counts['القصص التاريخية'];
-        document.getElementById('count-adv').innerText = counts['المغامرات'];
-        document.getElementById('count-folk').innerText = counts['حكايات شعبية'];
+        // بطاقات الأقسام
+        Object.keys(categoryNames).forEach(key => {
+            const catName = categoryNames[key];
+            const catColor = categoryColors[key] || '#475569';
+            const card = document.createElement('div');
+            card.className = `category-card ${currentFilter === key ? 'active-card' : ''}`;
+            card.style.setProperty('--cat-color', catColor);
+            card.onclick = () => filterStories(key);
+            card.innerHTML = `
+                <h3>${catName}</h3>
+                <div class="counter-badge" id="count-${key}">0</div>
+            `;
+            grid.appendChild(card);
+        });
+
+        // بطاقة المفضلة
+        const favCard = document.createElement('div');
+        favCard.className = `category-card ${currentFilter === 'المفضلة' ? 'active-card' : ''}`;
+        favCard.style.setProperty('--cat-color', '#e11d48');
+        favCard.onclick = () => filterStories('المفضلة');
+        favCard.innerHTML = `
+            <h3><i class="fa-solid fa-heart" style="color:var(--accent)"></i> المفضلة</h3>
+            <div class="counter-badge" id="count-المفضلة" style="color: #e11d48;">0</div>
+        `;
+        grid.appendChild(favCard);
+
+        // بطاقة المحذوفات
+        const trashCard = document.createElement('div');
+        trashCard.className = `category-card ${currentFilter === 'المحذوفات' ? 'active-card' : ''}`;
+        trashCard.style.setProperty('--cat-color', '#64748b');
+        trashCard.onclick = () => filterStories('المحذوفات');
+        trashCard.innerHTML = `
+            <h3><i class="fa-solid fa-trash-can"></i> المحذوفات</h3>
+            <div class="counter-badge" id="count-المحذوفات" style="color: #64748b;">0</div>
+        `;
+        grid.appendChild(trashCard);
+
+        // تحديث قائمة اختيار القسم في نافذة الإضافة
+        const select = document.getElementById('category');
+        select.innerHTML = '';
+        Object.keys(categoryNames).forEach(key => {
+            const opt = document.createElement('option');
+            opt.value = key;
+            opt.innerText = categoryNames[key];
+            select.appendChild(opt);
+        });
+
+        // تحديث عنوان الفلتر الحالي فوق القصص
+        const filterTitleEl = document.getElementById('currentFilterTitle');
+        if(currentFilter === 'الكل') {
+            filterTitleEl.innerHTML = `<i class="fa-solid fa-layer-group"></i> <span>جميع القصص</span>`;
+        } else if(currentFilter === 'المفضلة') {
+            filterTitleEl.innerHTML = `<i class="fa-solid fa-heart" style="color:var(--accent)"></i> <span>القصص المفضلة</span>`;
+        } else if(currentFilter === 'المحذوفات') {
+            filterTitleEl.innerHTML = `<i class="fa-solid fa-trash-can" style="color:var(--trash-color)"></i> <span>سلة المحذوفات</span>`;
+        } else {
+            filterTitleEl.innerHTML = `<i class="fa-solid fa-bookmark" style="color:${categoryColors[currentFilter]}"></i> <span>قسم: ${categoryNames[currentFilter]}</span>`;
+        }
+    }
+
+    function updateCounters() {
+        const counts = { 'الكل': 0, 'المفضلة': 0, 'المحذوفات': 0 };
+        Object.keys(categoryNames).forEach(k => counts[k] = 0);
+
+        stories.forEach(s => { 
+            if(s.isDeleted) {
+                counts['المحذوفات']++;
+                return;
+            }
+            counts['الكل']++;
+            if(s.isFavorite) counts['المفضلة']++;
+
+            let key = s.categoryKey;
+            if(!key) {
+                Object.keys(categoryNames).forEach(k => {
+                    if(categoryNames[k] === s.category) key = k;
+                });
+            }
+            if(counts[key] !== undefined) counts[key]++; 
+        });
+
+        Object.keys(counts).forEach(key => {
+            const el = document.getElementById(`count-${key}`);
+            if(el) el.innerText = counts[key];
+        });
     }
 
     async function toggleFavorite(id, event) {
@@ -760,6 +964,7 @@
         if (story) {
             story.isFavorite = !story.isFavorite;
             await saveStoryToDB(story);
+            updateCounters();
             renderStories();
         }
     }
@@ -769,37 +974,52 @@
         container.innerHTML = '';
 
         const filteredList = stories.filter(s => {
-            let matchesCategory = false;
-
-            if (currentFilter === 'الكل') {
-                matchesCategory = true;
-            } else if (currentFilter === 'المفضلة') {
-                matchesCategory = !!s.isFavorite;
+            if (currentFilter === 'المحذوفات') {
+                if (!s.isDeleted) return false;
             } else {
-                matchesCategory = (s.category === currentFilter);
+                if (s.isDeleted) return false;
+                let storyKey = s.categoryKey;
+                if(!storyKey) {
+                    Object.keys(categoryNames).forEach(k => {
+                        if(categoryNames[k] === s.category) storyKey = k;
+                    });
+                }
+
+                let matchesCategory = false;
+                if (currentFilter === 'الكل') {
+                    matchesCategory = true;
+                } else if (currentFilter === 'المفضلة') {
+                    matchesCategory = !!s.isFavorite;
+                } else {
+                    matchesCategory = (storyKey === currentFilter);
+                }
+                if (!matchesCategory) return false;
             }
 
             const matchesSearch = searchQuery === '' || 
                 s.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                 s.content.toLowerCase().includes(searchQuery.toLowerCase());
             
-            return matchesCategory && matchesSearch;
+            return matchesSearch;
         });
 
         if(filteredList.length === 0) {
-            const emptyMsg = currentFilter === 'المفضلة' 
-                ? 'لا توجد قصص مضافة في المفضلة بعد!' 
-                : 'لا توجد قصص مطابقة!';
+            let emptyMsg = 'لا توجد قصص مضافة بعد!';
+            if(currentFilter === 'المفضلة') emptyMsg = 'لا توجد قصص مضافة في المفضلة بعد!';
+            if(currentFilter === 'المحذوفات') emptyMsg = 'سلة المهملات فارغة!';
 
             container.innerHTML = `
                 <div class="empty-state">
-                    <i class="fa-solid fa-heart-crack" style="font-size: 2.5rem; margin-bottom: 8px; color: var(--accent);"></i>
+                    <i class="fa-solid fa-box-open" style="font-size: 2.5rem; margin-bottom: 8px; color: var(--text-muted);"></i>
                     <h4>${emptyMsg}</h4>
                 </div>`;
             return;
         }
 
         filteredList.forEach(story => {
+            let storyKey = story.categoryKey || Object.keys(categoryNames)[0];
+            let catDisplayName = story.isDeleted ? 'محذوف' : (categoryNames[storyKey] || story.category || 'قسم');
+
             const card = document.createElement('div');
             card.className = 'story-card';
 
@@ -812,12 +1032,17 @@
 
             const headerArea = document.createElement('div');
             headerArea.className = 'card-header';
-            headerArea.innerHTML = `
-                <span class="story-tag">${story.category}</span>
-                <button class="fav-btn ${isFav}" onclick="toggleFavorite('${story.id}', event)">
-                    <i class="${favIconClass} fa-heart"></i>
-                </button>
-            `;
+            
+            if(story.isDeleted) {
+                headerArea.innerHTML = `<span class="story-tag" style="background:#fee2e2; color:#b91c1c;">${catDisplayName}</span>`;
+            } else {
+                headerArea.innerHTML = `
+                    <span class="story-tag">${catDisplayName}</span>
+                    <button class="fav-btn ${isFav}" onclick="toggleFavorite('${story.id}', event)">
+                        <i class="${favIconClass} fa-heart"></i>
+                    </button>
+                `;
+            }
 
             const contentArea = document.createElement('div');
             contentArea.className = 'card-clickable-area';
@@ -834,24 +1059,45 @@
             const actionsArea = document.createElement('div');
             actionsArea.className = 'story-actions';
 
-            const editBtn = document.createElement('button');
-            editBtn.className = 'action-btn btn-edit';
-            editBtn.innerHTML = `<i class="fa-solid fa-pen"></i> تعديل`;
-            editBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                editStory(story.id);
-            });
+            if(story.isDeleted) {
+                const restoreBtn = document.createElement('button');
+                restoreBtn.className = 'action-btn btn-restore';
+                restoreBtn.innerHTML = `<i class="fa-solid fa-rotate-left"></i> استعادة`;
+                restoreBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    restoreStory(story.id);
+                });
 
-            const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'action-btn btn-delete';
-            deleteBtn.innerHTML = `<i class="fa-solid fa-trash"></i> حذف`;
-            deleteBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                deleteStory(story.id);
-            });
+                const permDeleteBtn = document.createElement('button');
+                permDeleteBtn.className = 'action-btn btn-delete';
+                permDeleteBtn.innerHTML = `<i class="fa-solid fa-trash-can"></i> حذف نهائي`;
+                permDeleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    permanentDeleteStory(story.id);
+                });
 
-            actionsArea.appendChild(editBtn);
-            actionsArea.appendChild(deleteBtn);
+                actionsArea.appendChild(restoreBtn);
+                actionsArea.appendChild(permDeleteBtn);
+            } else {
+                const editBtn = document.createElement('button');
+                editBtn.className = 'action-btn btn-edit';
+                editBtn.innerHTML = `<i class="fa-solid fa-pen"></i> تعديل`;
+                editBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    editStory(story.id);
+                });
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'action-btn btn-delete';
+                deleteBtn.innerHTML = `<i class="fa-solid fa-trash"></i> حذف`;
+                deleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    softDeleteStory(story.id);
+                });
+
+                actionsArea.appendChild(editBtn);
+                actionsArea.appendChild(deleteBtn);
+            }
 
             card.appendChild(headerArea);
             card.appendChild(contentArea);
@@ -868,16 +1114,18 @@
     function viewStory(id) {
         const story = stories.find(s => s.id === id);
         if (story) {
-            const isFav = story.isFavorite ? 'is-favorite' : '';
-            const favIconClass = story.isFavorite ? 'fa-solid' : 'fa-regular';
+            let storyKey = story.categoryKey || Object.keys(categoryNames)[0];
+            let catDisplayName = story.isDeleted ? 'محذوف' : (categoryNames[storyKey] || story.category || '');
+
+            const isFav = story.isFavorite && !story.isDeleted ? 'is-favorite' : '';
+            const favIconClass = story.isFavorite && !story.isDeleted ? 'fa-solid' : 'fa-regular';
+            const favAction = story.isDeleted ? '' : `onclick="toggleFavorite('${story.id}', event); viewStory('${story.id}');"`;
 
             const detailContainer = document.getElementById('storyDetailContent');
             detailContainer.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span class="story-tag">${story.category}</span>
-                    <button class="fav-btn ${isFav}" onclick="toggleFavorite('${story.id}', event); viewStory('${story.id}');">
-                        <i class="${favIconClass} fa-heart"></i>
-                    </button>
+                    <span class="story-tag">${catDisplayName}</span>
+                    ${!story.isDeleted ? `<button class="fav-btn ${isFav}" ${favAction}><i class="${favIconClass} fa-heart"></i></button>` : ''}
                 </div>
                 <h1 class="detail-title">${story.title}</h1>
                 <hr style="border-color: var(--glass-border); margin: 12px 0;">
@@ -897,9 +1145,7 @@
 
     function filterStories(cat) {
         currentFilter = cat;
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.innerText.includes(cat));
-        });
+        renderCategoriesUI();
         renderStories();
     }
 
@@ -914,17 +1160,70 @@
         document.getElementById('storyModal').classList.remove('active');
     }
 
+    function openCategoriesModal() {
+        const container = document.getElementById('existingCategoriesInputs');
+        container.innerHTML = '';
+        
+        Object.keys(categoryNames).forEach(key => {
+            const div = document.createElement('div');
+            div.className = 'form-group';
+            div.innerHTML = `
+                <label>تعديل اسم القسم</label>
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" id="cat-edit-${key}" value="${categoryNames[key]}" required style="flex: 1;">
+                    <input type="color" id="color-edit-${key}" value="${categoryColors[key] || '#0284c7'}" style="width: 50px; height: 42px; padding: 2px; cursor: pointer;">
+                </div>
+            `;
+            container.appendChild(div);
+        });
+
+        document.getElementById('newCatName').value = '';
+        document.getElementById('newCatColor').value = '#0284c7';
+        document.getElementById('categoriesModal').classList.add('active');
+    }
+
+    function closeCategoriesModal() {
+        document.getElementById('categoriesModal').classList.remove('active');
+    }
+
+    document.getElementById('categoriesForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        Object.keys(categoryNames).forEach(key => {
+            const nameInput = document.getElementById(`cat-edit-${key}`);
+            const colorInput = document.getElementById(`color-edit-${key}`);
+            if(nameInput) categoryNames[key] = nameInput.value.trim();
+            if(colorInput) categoryColors[key] = colorInput.value;
+        });
+
+        const newName = document.getElementById('newCatName').value.trim();
+        const newColor = document.getElementById('newCatColor').value;
+        if(newName !== '') {
+            const newKey = 'sec_' + Date.now();
+            categoryNames[newKey] = newName;
+            categoryColors[newKey] = newColor;
+        }
+
+        localStorage.setItem('hikayat_categories', JSON.stringify(categoryNames));
+        localStorage.setItem('hikayat_category_colors', JSON.stringify(categoryColors));
+        
+        renderCategoriesUI();
+        renderStories();
+        closeCategoriesModal();
+    });
+
     document.getElementById('storyForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const id = document.getElementById('storyId').value || Date.now().toString();
         const title = document.getElementById('title').value;
-        const category = document.getElementById('category').value;
+        const categoryKey = document.getElementById('category').value;
         const content = document.getElementById('content').value;
 
         const existingStory = stories.find(s => s.id === id);
         const isFavorite = existingStory ? !!existingStory.isFavorite : false;
+        const isDeleted = existingStory ? !!existingStory.isDeleted : false;
 
-        const storyObj = { id, title, category, content, isFavorite };
+        const storyObj = { id, title, categoryKey, content, isFavorite, isDeleted };
         await saveStoryToDB(storyObj);
         
         stories = await getAllStoriesFromDB();
@@ -938,15 +1237,40 @@
         if(story) {
             document.getElementById('storyId').value = story.id;
             document.getElementById('title').value = story.title;
-            document.getElementById('category').value = story.category;
+            document.getElementById('category').value = story.categoryKey || Object.keys(categoryNames)[0];
             document.getElementById('content').value = story.content;
             document.getElementById('modalTitle').innerHTML = '<i class="fa-solid fa-pen-to-square"></i> تعديل القصة';
             document.getElementById('storyModal').classList.add('active');
         }
     }
 
-    async function deleteStory(id) {
-        if(confirm('هل أنت متأكد من حذف هذه القصة؟')) {
+    async function softDeleteStory(id) {
+        if(confirm('هل أنت متأكد من نقل هذه القصة إلى المحذوفات؟')) {
+            const story = stories.find(s => s.id === id);
+            if(story) {
+                story.isDeleted = true;
+                story.isFavorite = false;
+                await saveStoryToDB(story);
+                stories = await getAllStoriesFromDB();
+                updateCounters();
+                renderStories();
+            }
+        }
+    }
+
+    async function restoreStory(id) {
+        const story = stories.find(s => s.id === id);
+        if(story) {
+            story.isDeleted = false;
+            await saveStoryToDB(story);
+            stories = await getAllStoriesFromDB();
+            updateCounters();
+            renderStories();
+        }
+    }
+
+    async function permanentDeleteStory(id) {
+        if(confirm('هل أنت متأكد من حذف هذه القصة نهائياً؟ لا يمكن التراجع عن هذا الإجراء.')) {
             await deleteStoryFromDB(id);
             stories = await getAllStoriesFromDB();
             updateCounters();
@@ -955,31 +1279,6 @@
     }
 
     window.addEventListener('DOMContentLoaded', loadData);
-</script>
-
-<!-- كود ربط Firebase المدمج -->
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyAKW6gCqC_FurqXbsOkNnjCGpiDVo001vY",
-    authDomain: "story-world-95afd.firebaseapp.com",
-    projectId: "story-world-95afd",
-    storageBucket: "story-world-95afd.firebasestorage.app",
-    messagingSenderId: "43294801356",
-    appId: "1:43294801356:web:423cf0c555d5177f2ff169",
-    measurementId: "G-XT6WYN1E7V"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
 </script>
 
 </body>
